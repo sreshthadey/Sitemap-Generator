@@ -11,17 +11,17 @@ def read_file():
         list_of_urls = list_of_urls.split('\n')
     return list_of_urls
 
-def write_file(xml_template, XML_file_path):
+def write_file(xml_template: str, XML_file_path: str):
     with open(XML_file_path,'w') as file:
         file.write(xml_template)
 
-def format_xml(root):
+def format_xml(root: object):
     
     xml_string = xml.dom.minidom.parseString(ET.tostring(root)).toprettyxml()
     xml_string = os.linesep.join([s for s in xml_string.splitlines() if s.strip()])
     return xml_string
 
-def generate_xml_template(root, url, last_mod_time, change_freq, priority):
+def generate_xml_template(root: object, url: str, last_mod_time: str, change_freq: str, priority: str):
     
     doc = ET.SubElement(root,"url")
     ET.SubElement(doc,"loc").text = url
@@ -29,7 +29,7 @@ def generate_xml_template(root, url, last_mod_time, change_freq, priority):
     ET.SubElement(doc,"changefreq").text = change_freq
     ET.SubElement(doc,"priority").text = priority
 
-def generate_xml_file(list_of_urls):
+def generate_xml_file(list_of_urls: list):
     
     root = ET.Element('urlset')
     root.attrib['xmlns:xsi'] = "http://www.w3.org/2001/XMLSchema-instance"
@@ -40,7 +40,7 @@ def generate_xml_file(list_of_urls):
     change_freq = 'daily' 
     priority = '1.0'
     
-    for i in range(len(list_of_urls)-1):
+    for i in range(len(list_of_urls)):
         url = args.base_url + list_of_urls[i]
         print(url)
         generate_xml_template(root, url, last_mod_time, change_freq, priority)
